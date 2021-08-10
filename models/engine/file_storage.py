@@ -61,3 +61,9 @@ class FileStorage:
             return
         instance = obj.to_dict()['__class__'] + '.' + obj.id
         del FileStorage.__objects[instance]
+
+    def get_a(self, cities=None):
+        """get cities from a state"""
+        if cities is None:
+            return
+
