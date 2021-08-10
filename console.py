@@ -146,7 +146,8 @@ class HBNBCommand(cmd.Cmd):
                         else:
                             attr_value = attrs[1]
 
-                        s = "{} {} {} {}".format(clss, obj.id, attr_name, attr_value)
+                        s = "{} {} {} {}".format(
+                                clss, obj.id, attr_name, attr_value)
                         HBNBCommand.do_update(self, s)
                         storage.save()
             else:
