@@ -124,15 +124,15 @@ class HBNBCommand(cmd.Cmd):
         """
         if args:
             cmd_args = args.split(' ')
-            class_name = cmd_args[0]
-            if class_name in HBNBCommand.classes:
+            clss = cmd_args[0]
+            if clss in HBNBCommand.classes:
                 if len(cmd_args) == 1:
-                    new_instance = HBNBCommand.classes[class_name]()
+                    new_instance = HBNBCommand.classes[clss]()
                     storage.save()
                     print(new_instance.id)
                 else:
                     cmd_args.pop(0)
-                    new_instance = HBNBCommand.classes[class_name]()
+                    new_instance = HBNBCommand.classes[clss]()
                     storage.save()
                     print(new_instance.id)
 
@@ -146,8 +146,8 @@ class HBNBCommand(cmd.Cmd):
                         else:
                             attr_value = attrs[1]
 
-                        command = "{} {} {} {}".format(class_name, new_instance.id, attr_name, attr_value)
-                        HBNBCommand.do_update(self, command)
+                        s = "{} {} {} {}".format(clss, new_instance.id, attr_name, attr_value)
+                        HBNBCommand.do_update(self, s)
                         storage.save()
             else:
                 print("** class doesn't exist **")
