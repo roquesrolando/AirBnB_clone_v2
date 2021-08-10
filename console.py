@@ -132,9 +132,9 @@ class HBNBCommand(cmd.Cmd):
                     print(new_instance.id)
                 else:
                     cmd_args.pop(0)
-                    new_instance = HBNBCommand.classes[clss]()
+                    obj = HBNBCommand.classes[clss]()
                     storage.save()
-                    print(new_instance.id)
+                    print(obj.id)
 
                     for attrs in cmd_args:
                         attrs = attrs.split('=')
@@ -146,7 +146,7 @@ class HBNBCommand(cmd.Cmd):
                         else:
                             attr_value = attrs[1]
 
-                        s = "{} {} {} {}".format(clss, new_instance.id, attr_name, attr_value)
+                        s = "{} {} {} {}".format(clss, obj.id, attr_name, attr_value)
                         HBNBCommand.do_update(self, s)
                         storage.save()
             else:
