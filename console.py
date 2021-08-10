@@ -114,17 +114,47 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
-        if not args:
+        """ Create an object of any class.
+            Command syntax: <class name> (creates instance)
+            Command syntax: <class name> <param 1> <param 2> <param 3>
+                param syntax: <attr name>="<value>"
+                all underscores must be replaced with spaces in command line:
+                Example:name="My_little_house" sets
+                Example: create State name="California"
+        """
+        if args:
+            cmd_args = args.split(' ')
+            class_name = cmd_args[0]
+            if class_name in HBNBCommand.classes:
+                if len(cmd_args) == 1:
+                    new_instance = HBNBCommand.classes[class_name]()
+                    storage.save()
+                    print(new_instance.id)
+                else:
+                    cmd_args.pop(0)
+                    new_instance = HBNBCommand.classes[class_name]()
+                    storage.save()
+                    print(new_instance.id)
+
+                    for attrs in cmd_args:
+                        attrs = attrs.split('=')
+
+                        attr_name = attrs[0]
+
+                        if '\"' in attrs[1]:
+                            attr_value = (attrs[1])[1:-1]
+                        else:
+                            attr_value = attrs[1]
+
+                        command = "{} {} {} {}".format(class_name, new_instance.id, attr_name, attr_value)
+                        HBNBCommand.do_update(self, command)
+                        storage.save()
+            else:
+                print("** class doesn't exist **")
+                return
+        else:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
-        print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -289,6 +319,9 @@ class HBNBCommand(cmd.Cmd):
             # if att_val was not quoted arg
             if not att_val and args[2]:
                 att_val = args[2].partition(' ')[0]
+
+            if '_' in att_val:
+                att_val = att_val.replace('_', ' ')
 
             args = [att_name, att_val]
 
