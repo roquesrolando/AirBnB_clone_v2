@@ -10,17 +10,23 @@ class FileStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
-        if cls is None:
-            return FileStorage.__objects
-        dict_obj = {}
-        for clas, obj in FileStorage.__objects.items():
-            if obj.__class__ == cls:
-                dict_obj[clas] = obj
-        return dict_obj
+        if cls is not None:
+            if type(cls) == str:
+                cls = eval(cls)
+            new_dict = {}
+            for key, value in self.__objects.items():
+                # if self.__class__.__name__ == cls:
+                if type(value) == cls:
+                    new_dict[key] = value
+            return new_dict
+        else:
+            return self.__objects
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
+        if obj:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            self.__objects[key] = obj
 
     def save(self):
         """Saves storage dictionary to file"""
@@ -51,18 +57,19 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                        self.all()[key] = classes[val['__class__']](**val)
+                    self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
 
     def delete(self, obj=None):
-        """deletes an object"""
-        if obj is None:
-            return
-        instance = obj.to_dict()['__class__'] + '.' + obj.id
-        del FileStorage.__objects[instance]
+        """Delete objects"""
+        if obj:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            if self.__objects[key]:
+                del FileStorage.__objects[key]
+                self.save()
 
-    def get_a(self, cities=None):
-        """get cities from a state"""
-        if cities is None:
-            return
+    def close(self):
+        """Method for deserializing the JSON file to objects"""
+        self.reload()
+
