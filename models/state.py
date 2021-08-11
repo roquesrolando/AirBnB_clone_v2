@@ -21,8 +21,8 @@ class State(BaseModel):
         list_cities = []
         temp.update(FileStorage.__objects)
         for key, value in temp.items():
-            if key.id == BaseModel.self.id
-                if key.name != BaseModel.self.name:
+            if key.id == self.id:
+                if key.name != self.name:
                     list_cities.append(key.name)
         return list_cities
 
