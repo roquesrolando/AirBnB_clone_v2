@@ -145,11 +145,7 @@ class HBNBCommand(cmd.Cmd):
                         else:
                             attr_value = attrs[1]
                             attr_value = eval(attr_value)
-                        print(attr_value + "HEREEEEEEE")
 
-                        s = "{} {} {} {}".format(
-                                clss, obj.id, attr_name, attr_value)
-                        print(s)
                         setattr(obj, attr_name, attr_value)
                         storage.save()
             else:
