@@ -142,6 +142,8 @@ class HBNBCommand(cmd.Cmd):
 
                         if '\"' in attrs[1]:
                             attr_value = (attrs[1])[1:-1]
+                            if '_' in attr_value:
+                                attr_value = attr_value.replace('_', ' ')
                         else:
                             attr_value = attrs[1]
                             attr_value = eval(attr_value)
