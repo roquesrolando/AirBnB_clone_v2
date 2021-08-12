@@ -127,9 +127,9 @@ class HBNBCommand(cmd.Cmd):
             clss = cmd_args[0]
             if clss in HBNBCommand.classes:
                 if len(cmd_args) == 1:
-                    new_instance = HBNBCommand.classes[clss]()
-                    storage.save()
-                    print(new_instance.id)
+                    obj = HBNBCommand.classes[clss]()
+                    obj.save()
+                    print(obj.id)
                 else:
                     cmd_args.pop(0)
                     obj = HBNBCommand.classes[clss]()
@@ -147,7 +147,7 @@ class HBNBCommand(cmd.Cmd):
                             attr_value = eval(attr_value)
 
                         setattr(obj, attr_name, attr_value)
-                        storage.save()
+                        obj.save()
             else:
                 print("** class doesn't exist **")
                 return
