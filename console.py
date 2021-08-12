@@ -133,7 +133,6 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     cmd_args.pop(0)
                     obj = HBNBCommand.classes[clss]()
-                    storage.save()
                     print(obj.id)
 
                     for attrs in cmd_args:
@@ -145,10 +144,13 @@ class HBNBCommand(cmd.Cmd):
                             attr_value = (attrs[1])[1:-1]
                         else:
                             attr_value = attrs[1]
+                            attr_value = eval(attr_value)
+                        print(attr_value + "HEREEEEEEE")
 
                         s = "{} {} {} {}".format(
                                 clss, obj.id, attr_name, attr_value)
-                        HBNBCommand.do_update(self, s)
+                        print(s)
+                        setattr(obj, attr_name, attr_value)
                         storage.save()
             else:
                 print("** class doesn't exist **")
