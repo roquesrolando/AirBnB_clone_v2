@@ -25,4 +25,3 @@ class State(BaseModel, Base):
                 if city.state_id == self.id:
                     my_list.append(city)
             return my_list
-
