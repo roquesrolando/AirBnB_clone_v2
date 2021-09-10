@@ -10,10 +10,12 @@ def index():
     """Says Hello HBNB!"""
     return 'Hello HBNB!'
 
+
 @app.route('/hbnb')
 def hello():
     """Says HBNB"""
     return 'HBNB'
+
 
 @app.route('/c/<text>')
 def c(text):
