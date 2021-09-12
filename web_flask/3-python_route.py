@@ -25,6 +25,7 @@ def c(text):
     return "C {}".format(space)
 
 
+@app.route('/python')
 @app.route('/python/<text>')
 def python(text='is cool'):
     """replaces _ with spaces but python"""
