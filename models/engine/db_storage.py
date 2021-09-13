@@ -40,6 +40,7 @@ class DBStorage:
         objects = []
         if cls:
             objects = self.__session.query(cls)
+            objs_query.extend(self.__session.query(Amenity).all())
         else:
             for cls in classes.values():
                 objects += self.__session.query(cls).all()
@@ -66,3 +67,7 @@ class DBStorage:
         Session = scoped_session(sessionmaker(bind=self.__engine,
                                               expire_on_commit=False))
         self.__session = Session()
+
+    def close(self):
+        """remove"""
+        self.__session.close()
